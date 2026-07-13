@@ -1,43 +1,42 @@
-var form = document.querySelector("#todoList");
-var input = document.querySelector("#itemAdd");
-var list = document.querySelector("#newItem");
+const form = document.querySelector("#todoList");
+const input = document.querySelector("#itemAdd");
+const list = document.querySelector("#newItem");
 
-form.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    var item = input.value.trim();
-
-    if (item === "") {
-        alert("Nothing entered. Please enter an item.");
-        return;
+// Function to fetch data from the backend
+const fetchData = async () => {
+    try {
+        const response = await fetch("/data");
+        const data = await response.json();
+        list.innerHTML = ""; // Clear the list before rendering
+        data.forEach((item) => {
+            const li = document.createElement("li");
+            li.textContent = item.id + ": " + JSON.stringify(item);
+            list.appendChild(li);
+        });
+    } catch (error) {
+        console.error("Error fetching data:", error);
     }
+};
 
-    var existingItems = document.querySelectorAll("#newItem li span");
-    for (var span of existingItems) {
-        if (span.innerText.toLowerCase() === item.toLowerCase()) {
-            input.value = "";
-            alert("That item already exists, please enter a new To Do item.");
-            return;
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const newData = { text: input.value };
+
+    try {
+        const response = await fetch("/data", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newData),
+        });
+
+        if (response.ok) {
+            input.value = ""; // Clear input field
+            fetchData(); // Refresh the list
         }
+    } catch (error) {
+        console.error("Error adding data:", error);
     }
-
-    var newLI = document.createElement("li");
-
-
-    var textSpan = document.createElement("span");
-    textSpan.innerText = item;
-
-    var deleteBtn = document.createElement("button");
-    deleteBtn.innerText = "DELETE";
-    deleteBtn.classList.add("delete-btn");
-
-    deleteBtn.addEventListener("click", function () {
-        newLI.remove();
-    });
-
-    newLI.appendChild(textSpan);
-    newLI.appendChild(deleteBtn);
-    list.appendChild(newLI);
-
-    input.value = "";
 });
+
+// Fetch data on page load
+fetchData();
