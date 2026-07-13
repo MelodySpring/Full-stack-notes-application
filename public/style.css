@@ -1,0 +1,162 @@
+:root {
+
+    --main-color: #cc1e41;
+}
+
+body {
+    background-color: #e2f0f4;
+    font-family: "Handlee", cursive;
+    padding: 40px;
+}
+
+/* I used a resource on Google to create the notepaper effect as I didn't know where to start and wanted to use it as it was in my wireframe but made some modifications to get exactly what I wanted*/
+.notebook {
+    max-width: 600px;
+    width: 100%;
+    min-height: 800px;
+    margin: auto;
+    box-sizing: border-box;
+    padding: 40px 50px;
+    background-color: #e8e3dd;
+    background-image:
+        repeating-linear-gradient(to bottom,
+            transparent 0px,
+            transparent 23px,
+            #8d8d8d 23px,
+            #8d8d8d 24px);
+    border-left: 4px solid var(--main-color);
+    padding-left: 30px;
+    box-shadow: 0 4px 15px #6b6c6f;
+    background-size: 100% 24px;
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: bold;
+    margin-top: 0;
+    text-align: center;
+    margin-bottom: 0;
+    text-decoration: underline;
+    text-underline-offset: 10px;
+}
+
+p {
+    font-size: 25px;
+    line-height: 30px;
+    font-weight: bold;
+    margin-top: 15px;
+    text-align: left;
+}
+
+b {
+    font-size: 25px;
+    line-height: 30px;
+    font-weight: bold;
+    color: var(--main-color);
+}
+
+label[for="itemAdd"] {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+#itemAdd {
+    width: 100%;
+    max-width: 500px;
+    height: 40px;
+    height: 30px;
+    font-size: 20px;
+}
+
+#addBtn {
+    height: 40px;
+    width: 150px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    font-size: 15px;
+    color: white;
+    background-color: var(--main-color);
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#newItem {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 50px;
+    margin-left: -40px;
+    color: #2a27f5;
+    text-align: left;
+
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+h2 {
+    font-size: 40px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    text-align: center;
+
+}
+
+#newItem li {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-bottom: 0;
+}
+
+#newItem li::before {
+    content: "•";
+    margin-right: 8px;
+    color: black;
+}
+
+.delete-btn {
+    margin-left: 30px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 15px;
+    background: var(--main-color);
+    color: white;
+    border: 1px solid black;
+    padding: 3px 8px;
+    cursor: pointer;
+    border-radius: 4px;
+
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+        overflow-x: hidden;
+    }
+
+    .notebook {
+        padding: 20px;
+        padding-left: 25px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+
+    #itemAdd {
+        display: block;
+        width: 100%;
+    }
+
+    #addBtn {
+        display: block;
+        margin-left: 0;
+        margin-top: 8px;
+    }
+}

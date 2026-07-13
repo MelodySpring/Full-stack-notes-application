@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
+    <title>ToDo List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="notebook">
+        <h1>TO DO List</h1>
+        <p>This is a To Do list. Enter the item you would like to add and click the <b>add</b> button.
+            Click the
+            <b>delete</b> button to remove an item.
+        </p>
+        <form id="todoList">
+            <label for="itemAdd">What would you like to add?</label>
+            <input type="text" id="itemAdd" autocomplete="off">
+            <button id="addBtn">ADD</button>
+
+
+        </form>
+        <h2>Things To Do...</h2>
+        <ul id="newItem">
+
+        </ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+
+</html>
