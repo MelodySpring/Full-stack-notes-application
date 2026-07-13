@@ -10,7 +10,7 @@ const fetchData = async () => {
         list.innerHTML = ""; // Clear the list before rendering
         data.forEach((item) => {
             const li = document.createElement("li");
-            li.textContent = item.id + ": " + JSON.stringify(item);
+            li.textContent = item.text;
             list.appendChild(li);
         });
     } catch (error) {
