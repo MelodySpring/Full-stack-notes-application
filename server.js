@@ -1,68 +1,61 @@
-// Import the required modules
 const express = require("express");
+const bodyParser = require("body-parser");
 const fs = require("fs");
-const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 
-// Create an instance of an Express application
 const app = express();
+const PORT = 3000;
 
-// Define the port the server will listen on
-const PORT = 3001;
+app.use(bodyParser.json());
+app.use(express.static("public"));
 
-// Middleware to parse incoming JSON requests
-app.use(express.json());
-
-// TODO:  Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, "public")));
-
-// Define the path to the JSON file
-const dataFilePath = path.join(__dirname, "data.json");
-
-// Function to read data from the JSON file
-const readData = () => {
-  if (!fs.existsSync(dataFilePath)) {
-    return [];
+// Load data from JSON file
+const loadData = () => {
+  try {
+    const raw = fs.readFileSync("data.json");
+    return JSON.parse(raw);
+  } catch (err) {
+    return []; // if file missing or broken
   }
-  const data = fs.readFileSync(dataFilePath);
-  return JSON.parse(data);
 };
 
-// Function to write data to the JSON file
-const writeData = (data) => {
-  fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
+// Save data to JSON file
+const saveData = (data) => {
+  fs.writeFileSync("data.json", JSON.stringify(data, null, 2));
 };
 
-// TODO: Handle GET request at the root route
+// In-memory copy (synced with file)
+let data = loadData();
 
-// Handle GET request to retrieve stored data
+// GET all items
 app.get("/data", (req, res) => {
-  const data = readData();
   res.json(data);
 });
 
-// Handle POST request to save new data with a unique ID
+// POST new item
 app.post("/data", (req, res) => {
-  const newData = { id: uuidv4(), ...req.body };
-  const currentData = readData();
-  currentData.push(newData);
-  writeData(currentData);
-  res.json({ message: "Data saved successfully", data: newData });
+  const newItem = {
+    id: uuidv4(),
+    text: req.body.text
+  };
+
+  data.push(newItem);
+  saveData(data);
+
+  res.json(newItem);
 });
 
-// Handle POST request at the /echo route
-app.post("/echo", (req, res) => {
-  // Respond with the same data that was received in the request body
-  res.json({ received: req.body });
+// DELETE item
+app.delete("/data/:id", (req, res) => {
+  const id = req.params.id;
+
+  data = data.filter(item => item.id !== id);
+  saveData(data);
+
+  res.json({ message: "Item deleted", id });
 });
 
-// Wildcard route to handle undefined routes
-app.all("*", (req, res) => {
-  res.status(404).send("Route not found");
-});
-
-// Start the server and listen on the specified port
-
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
