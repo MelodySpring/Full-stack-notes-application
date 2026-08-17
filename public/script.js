@@ -2,22 +2,22 @@ const form = document.querySelector("#todoList");
 const input = document.querySelector("#itemAdd");
 const list = document.querySelector("#newItem");
 
-// Fetch and render data
+
 const fetchData = async () => {
     try {
         const response = await fetch("/data");
         const data = await response.json();
 
-        list.innerHTML = ""; // Clear list
+        list.innerHTML = "";
 
         data.forEach((item) => {
             const li = document.createElement("li");
 
-            // Item text
+
             const textSpan = document.createElement("span");
             textSpan.textContent = item.text;
 
-            // Delete button
+
             const deleteBtn = document.createElement("button");
             deleteBtn.textContent = "Delete";
             deleteBtn.classList.add("delete-btn");
@@ -28,7 +28,7 @@ const fetchData = async () => {
                     await fetch(`/data/${item.id}`, {
                         method: "DELETE",
                     });
-                    fetchData(); // Refresh list
+                    fetchData();
                 } catch (error) {
                     console.error("Error deleting item:", error);
                 }
@@ -43,7 +43,7 @@ const fetchData = async () => {
     }
 };
 
-// Add new item
+
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const newData = { text: input.value };
@@ -64,5 +64,5 @@ form.addEventListener("submit", async (event) => {
     }
 });
 
-// Load items on page start
+
 fetchData();
